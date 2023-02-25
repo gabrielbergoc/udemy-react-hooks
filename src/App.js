@@ -1,10 +1,21 @@
 import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const App = () => {
   const [reverse, setReverse] = useState(false);
   const [counter, setCounter] = useState(0);
+
+  useEffect(() => console.log('componentDidUpdate'));
+
+  useEffect(() => {
+    console.log('componentDidMount');
+
+    // return cleaning function
+    return () => console.log('componentWillUnmount');
+  }, []);
+
+  useEffect(() => console.log('dependency changed:', counter), [counter]);
 
   const handleLogoClick = (e) => {
     e.preventDefault();
