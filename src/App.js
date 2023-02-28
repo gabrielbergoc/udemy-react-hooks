@@ -1,20 +1,17 @@
 import P from 'prop-types';
 import logo from './logo.svg';
 import './App.css';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-const Button = React.memo(function Button({ fn }) {
-  console.log('rendered button')
+const Button = ({ fn }) => {
   return <button onClick={() => fn()}>+</button>;
-});
+};
 
 Button.propTypes = {
   fn: P.func.isRequired,
 };
 
 const App = () => {
-  console.log('rendered app')
-
   const [reverse, setReverse] = useState(false);
   const [counter, setCounter] = useState(0);
 
@@ -40,13 +37,14 @@ const App = () => {
   const incrementCounter = useCallback((n = 1) => setCounter((c) => c + n), []);
 
   const reverseClass = reverse ? 'reverse' : '';
+  const btn = useMemo(() => <Button fn={incrementCounter} />, [incrementCounter]);
 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className={`App-logo ${reverseClass}`} alt="logo" onClick={handleLogoClick} />
         <p>Clicked {counter} times</p>
-        <Button fn={incrementCounter} />
+        {btn}
       </header>
     </div>
   );
